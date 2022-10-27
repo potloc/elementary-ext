@@ -23,6 +23,13 @@ class elementary(ExtensionBase):
         """Initialize the extension."""
         self.elementary_bin = "edr"  # verify this is the correct name
         self.elementary_invoker = Invoker(self.elementary_bin)
+        self.dbt_project_dir = Path(os.getenv("DBT_PROJECT_DIR", "transform"))
+        self.dbt_profiles_dir = Path(
+            os.getenv("DBT_PROFILES_DIR", self.dbt_project_dir / "profiles")
+        )
+        self.skip_pre_invoke = (
+            os.getenv("DBT_EXT_SKIP_PRE_INVOKE", "false").lower() == "true"
+        )
 
 
     def pre_invoke(self, invoke_name: str | None, *invoke_args: Any) -> None:
