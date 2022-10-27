@@ -22,14 +22,25 @@ class elementary(ExtensionBase):
     def __init__(self) -> None:
         """Initialize the extension."""
         self.elementary_bin = "edr"  # verify this is the correct name
-        self.elementary_invoker = Invoker(self.elementary_bin)
-        self.dbt_project_dir = Path(os.getenv("DBT_PROJECT_DIR", "transform"))
+        self.dbt_project_dir = Path(os.getenv("ELEMENTARY_PROJECT_DIR", "transform"))
         self.dbt_profiles_dir = Path(
-            os.getenv("DBT_PROFILES_DIR", self.dbt_project_dir / "profiles")
+            os.getenv("ELEMENTARY_PROFILES_DIR", self.dbt_project_dir / "profiles")
         )
-        self.skip_pre_invoke = (
-            os.getenv("DBT_EXT_SKIP_PRE_INVOKE", "false").lower() == "true"
+        self.file_path = Path(os.getenv("ELEMENTARY_FILE_PATH", "utilities/elementary/report.html"))
+        self.slack_channel_name = Path(
+            os.getenv("ELEMENTARY_SLACK_CHANNEL_NAME", "")
         )
+        self.slack_channel_token = Path(
+            os.getenv("ELEMENTARY_SLACK_CHANNEL_TOKEN", "")
+        )
+        self.dbt_profiles_dir = Path(
+            os.getenv("ELEMENTARY_PROFILES_DIR", self.dbt_project_dir / "profiles")
+        )
+        self.skip_pre_invoke = Path(
+            os.getenv("ELEMENTARY_EXT_SKIP_PRE_INVOKE", "false").lower() == "true"
+        )
+        self.elementary_invoker = Invoker(self.elementary_bin, cwd=self.dbt_profiles_dir)
+
 
 
     def pre_invoke(self, invoke_name: str | None, *invoke_args: Any) -> None:
