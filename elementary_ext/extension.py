@@ -36,9 +36,9 @@ class elementary(ExtensionBase):
         self.dbt_profiles_dir = Path(
             os.getenv("ELEMENTARY_PROFILES_DIR", self.dbt_project_dir / "profiles")
         )
-        self.skip_pre_invoke = Path(
-            os.getenv("ELEMENTARY_EXT_SKIP_PRE_INVOKE", "false").lower() == "true"
-        )
+        # self.skip_pre_invoke = Path(
+        #     os.getenv("ELEMENTARY_EXT_SKIP_PRE_INVOKE", "false").lower() == "true"
+        # )
         self.elementary_invoker = Invoker(self.elementary_bin, cwd=self.dbt_profiles_dir)
 
 
