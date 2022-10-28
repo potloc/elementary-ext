@@ -25,16 +25,16 @@ requires = ["poetry-core>=1.0.8"]
 build-backend = "poetry.core.masonry.api"
 
 packages = [
-    { include = "elementary_ext" }
+    { include = "elementary_ext" },
     # uncomment this if you want to include static assets
-    # { include = "files_elementary-ext.*" }
+    { include = "files_elementary_ext" }
 ]
 
 # If you need to static assets with your extension, you can add them here.
 # Under a directory path of "files_elementary-ext/"
-#include = [
-#    "files_elementary-ext/somefile.thing"
-#]
+include = [
+    {path = "files_elementary_ext"}
+]
 
 [tool.poetry.scripts]
 elementary_extension = 'elementary_ext.main:app'
