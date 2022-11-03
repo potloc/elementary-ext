@@ -146,7 +146,7 @@ class elementary(ExtensionBase):
         """Generates a report through the report.html parameter
 
         """
-        command_name = "monitor-report"
+        command_name = "monitor report"
 
         if not os.path.isfile(self.file_path):
             log.error(f"File path {self.file_path} does not point towards an existing empty html file. Failing")
