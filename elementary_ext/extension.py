@@ -155,8 +155,8 @@ class elementary(ExtensionBase):
             log.error("Profiles dir does not exist. Please run 'initialize' before running any other command")
 
         try:
-            self.elementary_invoker.run_and_log(
-                f"{command_name} --profiles-dir={self.dbt_profiles_dir} --file-path {self.file_path}"
+            self.elementary_invoker.run(
+                f"{command_name}", f"--profiles-dir={self.dbt_profiles_dir}",  f"--file-path {self.file_path}"
             )
         except subprocess.CalledProcessError as err:
             log_subprocess_error(
