@@ -158,7 +158,7 @@ class elementary(ExtensionBase):
                     "monitor",
                     "report",
                     f"--profiles-dir={self.dbt_profiles_dir}",
-                    f"--file_path={self.file_path}",
+                    f"--file-path={self.file_path}",
                 ],
             )
         except subprocess.CalledProcessError as err:
