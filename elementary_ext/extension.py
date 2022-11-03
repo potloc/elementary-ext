@@ -149,9 +149,7 @@ class elementary(ExtensionBase):
         command_name = "monitor-report"
 
         if not os.path.isfile(self.file_path):
-            log.info("Creating blank report.html file a path", self.file_path)
-            file = open(self.file_path, "w+")
-            file.close()
+            log.error(f"File path {self.file_path} does not point towards an existing empty html file. Failing")
 
         if not self.dbt_profiles_dir.exists():
             log.error("Profiles dir does not exist. Please run 'initialize' before running any other command")
