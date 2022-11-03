@@ -156,7 +156,7 @@ class elementary(ExtensionBase):
 
         try:
             self.elementary_invoker.run(
-                "monitor report"
+                "monitor", "report", f"--profiles-dir={self.dbt_profiles_dir}", f"--file-path={self.file_path}"
             )
         except subprocess.CalledProcessError as err:
             log_subprocess_error(
