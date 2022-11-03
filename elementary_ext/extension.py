@@ -142,7 +142,7 @@ class elementary(ExtensionBase):
             dbt_profiles_dir=self.dbt_profiles_dir,
         )
 
-    def monitor_report(self) -> models.Monitor_Report:
+    def monitor_report(self) -> None:
         """Generates a report through the report.html parameter
 
         """
