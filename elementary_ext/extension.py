@@ -150,12 +150,14 @@ class elementary(ExtensionBase):
 
         if not os.path.isfile(self.file_path):
             log.error(f"File path {self.file_path} does not point towards an existing empty html file. Failing")
+            sys.exit()
 
         if not self.dbt_profiles_dir.exists():
             log.error("Profiles dir does not exist. Please run 'initialize' before running any other command")
+            sys.exit()
 
         try:
-            self.elementary_invoker.run(
+            self.elementary_invoker.run_and_log(
                 "monitor", "report", f"--profiles-dir={self.dbt_profiles_dir}", f"--file-path={self.file_path}"
             )
         except subprocess.CalledProcessError as err:
