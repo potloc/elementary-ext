@@ -37,6 +37,16 @@ def initialize(
         )
         sys.exit(1)
 
+@app.command()
+def monitor_report(ctx: typer.Context) -> None:
+    """Generate report for elementary"""
+    try:
+        ext.monitor_report()
+    except Exception:
+        log.exception(
+            "monitor report failed with uncaught exception, please report to maintainer"
+        )
+        sys.exit(1)
 
 @app.command(
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True}

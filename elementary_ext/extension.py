@@ -97,23 +97,6 @@ class elementary(ExtensionBase):
             )
             sys.exit(err.returncode)
 
-    def describe(self) -> models.Describe:
-        """Describe the extension.
-
-        Returns:
-            The extension description
-        """
-        # TODO: could we auto-generate all or portions of this from typer instead?
-        return models.Describe(
-            commands=[
-                models.ExtensionCommand(
-                    name="elementary_extension", description="extension commands"
-                ),
-                models.InvokerCommand(
-                    name="elementary_invoker", description="pass through invoker"
-                ),
-            ]
-        )
 
 
     def initialize(self, force: bool = False) -> None:
@@ -157,4 +140,53 @@ class elementary(ExtensionBase):
             dbt_ext_type=self.dbt_ext_type,
             dbt_project_dir=self.dbt_project_dir,
             dbt_profiles_dir=self.dbt_profiles_dir,
+        )
+
+    def monitor_report(self) -> models.Monitor_Report:
+        """Generates a report through the report.html parameter
+
+        """
+        command_name = "monitor-report"
+
+        if not os.path.isfile(self.file_path):
+            log.info("Creating blank report.html file a path", self.file_path)
+            file = open(self.file_path, "w+")
+            file.close()
+
+        if not self.dbt_profiles_dir.exists():
+            log.error("Profiles dir does not exist. Please run 'initialize' before running any other command")
+
+        try:
+            self.elementary_invoker.run_and_log(
+                f"{command_name} --profiles-dir={self.dbt_profiles_dir} --file-path {self.file_path}"
+            )
+        except subprocess.CalledProcessError as err:
+            log_subprocess_error(
+                f"elementary {command_name}", err, "elementary invocation failed"
+            )
+            sys.exit(err.returncode)
+
+        log.info(
+            f"elementary {command_name}",
+            file_path=self.file_path,
+            dbt_profiles_dir=self.dbt_profiles_dir,
+        )
+
+
+    def describe(self) -> models.Describe:
+        """Describe the extension.
+
+        Returns:
+            The extension description
+        """
+        # TODO: could we auto-generate all or portions of this from typer instead?
+        return models.Describe(
+            commands=[
+                models.ExtensionCommand(
+                    name="elementary_extension", description="extension commands"
+                ),
+                models.InvokerCommand(
+                    name="elementary_invoker", description="pass through invoker"
+                ),
+            ]
         )
