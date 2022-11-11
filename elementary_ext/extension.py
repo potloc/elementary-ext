@@ -36,7 +36,7 @@ class elementary(ExtensionBase):
         self.file_path = Path(os.getenv("ELEMENTARY_FILE_PATH", "utilities/elementary/report.html"))
 
         self.slack_channel_name = os.getenv("ELEMENTARY_SLACK_CHANNEL_NAME", "")
-        self.slack_channel_token = os.getenv("ELEMENTARY_SLACK_CHANNEL_TOKEN", "")
+        self.slack_token = os.getenv("ELEMENTARY_SLACK_TOKEN", "")
 
         self.dbt_profiles_dir = Path(
             os.getenv("ELEMENTARY_PROFILES_DIR", self.dbt_project_dir / "profiles")
@@ -186,7 +186,7 @@ class elementary(ExtensionBase):
 
         log.info(
             f"elementary {command_name}",
-            slack_channel_token=self.slack_channel_token,
+            slack_token=self.slack_token,
             slack_channel_name=self.slack_channel_name,
             dbt_profiles_dir=self.dbt_profiles_dir,
         )
@@ -198,7 +198,7 @@ class elementary(ExtensionBase):
                     "monitor",
                     "send-report",
                     f"--profiles-dir={self.dbt_profiles_dir}",
-                    f"--slack-token={self.slack_channel_token}",
+                    f"--slack-token={self.slack_token}",
                     f"--slack-channel-name={self.slack_channel_name}",
                 ],
             )
@@ -210,7 +210,7 @@ class elementary(ExtensionBase):
 
         log.info(
             f"elementary {command_name}",
-            slack_channel_token=self.slack_channel_token,
+            slack_token=self.slack_token,
             slack_channel_name=self.slack_channel_name,
             dbt_profiles_dir=self.dbt_profiles_dir,
         )
