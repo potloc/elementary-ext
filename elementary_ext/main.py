@@ -48,6 +48,17 @@ def monitor_report(ctx: typer.Context) -> None:
         )
         sys.exit(1)
 
+@app.command()
+def monitor_send_report(ctx: typer.Context) -> None:
+    """Generate report for elementary and send it through slack"""
+    try:
+        ext.monitor_report()
+    except Exception:
+        log.exception(
+            "monitor send report failed with uncaught exception, please report to maintainer"
+        )
+        sys.exit(1)
+
 @app.command(
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True}
 )

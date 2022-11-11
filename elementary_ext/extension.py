@@ -173,6 +173,41 @@ class elementary(ExtensionBase):
             dbt_profiles_dir=self.dbt_profiles_dir,
         )
 
+    def monitor_send_report(self) -> None:
+        """Generates a report through and send it to a specific slack channel.
+
+        Args:
+            profiles-dir: Path to dbt profiles directory
+            slack-token: Slack token for channel
+            slack-channel-name: Name of the slack channel
+
+        """
+        command_name = "monitor send report"
+        try:
+            self.elementary_invoker.run_and_log(
+                None,
+                [
+                    "monitor",
+                    "send",
+                    "report",
+                    f"--profiles-dir={self.dbt_profiles_dir}",
+                    f"--slack-token={self.slack_channel_token}",
+                    f"--slack-channel-name={self.slack_channel_name}",
+                ],
+            )
+        except subprocess.CalledProcessError as err:
+            log_subprocess_error(
+                f"elementary {command_name}", err, "elementary invocation failed"
+            )
+            sys.exit(err.returncode)
+
+        log.info(
+            f"elementary {command_name}",
+            slack_channel_token=self.slack_channel_token,
+            slack_channel_name=self.slack_channel_name,
+            dbt_profiles_dir=self.dbt_profiles_dir,
+        )
+
 
     def describe(self) -> models.Describe:
         """Describe the extension.
