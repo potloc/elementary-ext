@@ -183,6 +183,14 @@ class elementary(ExtensionBase):
 
         """
         command_name = "monitor send report"
+
+        log.info(
+            f"elementary {command_name}",
+            slack_channel_token=self.slack_channel_token,
+            slack_channel_name=self.slack_channel_name,
+            dbt_profiles_dir=self.dbt_profiles_dir,
+        )
+
         try:
             self.elementary_invoker.run_and_log(
                 None,
