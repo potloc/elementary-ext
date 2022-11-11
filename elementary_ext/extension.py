@@ -188,7 +188,7 @@ class elementary(ExtensionBase):
                 None,
                 [
                     "monitor",
-                    "send-report"
+                    "send-report",
                     f"--profiles-dir={self.dbt_profiles_dir}",
                     f"--slack-token={self.slack_channel_token}",
                     f"--slack-channel-name={self.slack_channel_name}",
