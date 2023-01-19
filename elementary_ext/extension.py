@@ -153,13 +153,10 @@ class elementary(ExtensionBase):
         command_name = "monitor report"
         try:
             self.elementary_invoker.run_and_log(
-                None,
-                [
-                    "monitor",
-                    "report",
-                    f"--profiles-dir={self.dbt_profiles_dir}",
-                    f"--file-path={self.file_path}",
-                ],
+                "monitor",
+                "report",
+                f"--profiles-dir={self.dbt_profiles_dir}",
+                f"--file-path={self.file_path}",
             )
         except subprocess.CalledProcessError as err:
             log_subprocess_error(
@@ -193,14 +190,11 @@ class elementary(ExtensionBase):
 
         try:
             self.elementary_invoker.run_and_log(
-                None,
-                [
-                    "monitor",
-                    "send-report",
-                    f"--profiles-dir={self.dbt_profiles_dir}",
-                    f"--slack-token={self.slack_token}",
-                    f"--slack-channel-name={self.slack_channel_name}",
-                ],
+                "monitor",
+                "send-report",
+                f"--profiles-dir={self.dbt_profiles_dir}",
+                f"--slack-token={self.slack_token}",
+                f"--slack-channel-name={self.slack_channel_name}",
             )
         except subprocess.CalledProcessError as err:
             log_subprocess_error(
