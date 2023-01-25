@@ -32,6 +32,7 @@ class elementary(ExtensionBase):
         self.dbt_profiles_dir = Path(
             os.getenv("ELEMENTARY_PROFILES_DIR", self.dbt_project_dir / "profiles")
         )
+        self.config_dir_path = Path(os.getenv("ELEMENTARY_CONFIG_DIR_PATH", ""))
         self.dbt_ext_type = os.getenv("DBT_EXT_TYPE", "bigquery")
         self.file_path = Path(os.getenv("ELEMENTARY_FILE_PATH", "utilities/elementary/report.html"))
 
@@ -90,6 +91,16 @@ class elementary(ExtensionBase):
             command_args: The arguments to pass to the command.
         """
         try:
+            command_msg = command_name if command_name else "edr"
+            if len(command_args) > 0:
+                command_msg += f" {command_args[0]}"
+            log.info(f"Extension executing `{command_msg}`...")
+
+            if self.config_dir_path != "":
+                command_args = command_args + ("--config-dir-path=" + self.config_dir_path)
+            elif self.dbt_profiles_dir != "":
+                command_args = command_args + ("--profiles-dir=" + self.dbt_profiles_dir)
+
             self.elementary_invoker.run_and_log(command_name, *command_args)
         except subprocess.CalledProcessError as err:
             log_subprocess_error(
@@ -141,21 +152,6 @@ class elementary(ExtensionBase):
             dbt_project_dir=self.dbt_project_dir,
             dbt_profiles_dir=self.dbt_profiles_dir,
         )
-
-    def run(self, log, command_name, command_args) -> None:
-        """Run command that takes into account project dir and profiles dir in settings
-
-        Args:
-            command (list)
-
-        """
-
-        command_args = command_args.extend(["--profiles-dir", self.dbt_profiles_dir])
-        log.debug(
-            "called", command_name=command_name, command_args=command_args, env=os.environ
-        )
-        self.pass_through_invoker(log, command_name, *command_args)
-
 
     def monitor_report(self) -> None:
         """Generates a report through the report.html parameter
