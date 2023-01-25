@@ -149,22 +149,12 @@ class elementary(ExtensionBase):
             command (list)
 
         """
-        log.info(
-            f"elementary {command_name}",
-            dbt_profiles_dir=self.dbt_profiles_dir,
-        )
 
-        try:
-            self.elementary_invoker.run_and_log(
-                f"{command_name}",
-                f"--profiles-dir={self.dbt_profiles_dir}",
-                f"{command_args}"
-            )
-        except subprocess.CalledProcessError as err:
-            log_subprocess_error(
-                f"elementary {command_name}", err, "elementary invocation failed"
-            )
-            sys.exit(err.returncode)
+        command_args = command_args.extend(["--profiles-dir", self.dbt_profiles_dir])
+        log.debug(
+            "called", command_name=command_name, command_args=command_args, env=os.environ
+        )
+        self.pass_through_invoker(log, command_name, *command_args)
 
 
     def monitor_report(self) -> None:
