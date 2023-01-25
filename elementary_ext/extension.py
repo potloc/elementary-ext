@@ -142,6 +142,31 @@ class elementary(ExtensionBase):
             dbt_profiles_dir=self.dbt_profiles_dir,
         )
 
+    def run(self, log, command_name, command_args) -> None:
+        """Run command that takes into account project dir and profiles dir in settings
+
+        Args:
+            command (list)
+
+        """
+        log.info(
+            f"elementary {command_name}",
+            dbt_profiles_dir=self.dbt_profiles_dir,
+        )
+
+        try:
+            self.elementary_invoker.run_and_log(
+                f"{command_name}",
+                f"--profiles-dir={self.dbt_profiles_dir}",
+                f"{command_args}"
+            )
+        except subprocess.CalledProcessError as err:
+            log_subprocess_error(
+                f"elementary {command_name}", err, "elementary invocation failed"
+            )
+            sys.exit(err.returncode)
+
+
     def monitor_report(self) -> None:
         """Generates a report through the report.html parameter
 

@@ -75,6 +75,22 @@ def invoke(ctx: typer.Context, command_args: List[str]) -> None:
     )
     ext.pass_through_invoker(log, command_name, *command_args)
 
+@app.command(
+    context_settings={"allow_extra_args": True, "ignore_unknown_options": True}
+)
+def run(ctx: typer.Context, command_args: List[str]) -> None:
+    """Run the plugin (with included profiles directory).
+
+    Note: that if a command argument is a list, such as command_args,
+    then unknown options are also included in the list and NOT stored in the
+    context as usual.
+    """
+    command_name, command_args = command_args[0], command_args[1:]
+    log.debug(
+        "called", command_name=command_name, command_args=command_args, env=os.environ
+    )
+    ext.run(log, command_name, *command_args)
+
 
 @app.command()
 def describe(
