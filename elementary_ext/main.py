@@ -86,9 +86,6 @@ def run(ctx: typer.Context, command_args: List[str]) -> None:
     context as usual.
     """
     command_name, command_args = command_args[0], command_args[1:]
-    log.debug(
-        "called", command_name=command_name, command_args=command_args, env=os.environ
-    )
     ext.run(log, command_name, *command_args)
 
 
