@@ -96,10 +96,11 @@ class elementary(ExtensionBase):
                 command_msg += f" {command_args[0]}"
             log.info(f"Extension executing `{command_msg}`...")
 
-            if self.config_dir_path != "":
-                command_args = command_args + ("--config-dir-path=" + str(self.config_dir_path),)
-            elif self.dbt_profiles_dir != "":
-                command_args = command_args + ("--profiles-dir=" + str(self.dbt_profiles_dir),)
+            if command_args[0] != "--help":
+                if self.config_dir_path != "":
+                    command_args = command_args + ("--config-dir-path=" + str(self.config_dir_path),)
+                elif self.dbt_profiles_dir != "":
+                    command_args = command_args + ("--profiles-dir=" + str(self.dbt_profiles_dir),)
 
             self.elementary_invoker.run_and_log(command_name, *command_args)
         except subprocess.CalledProcessError as err:
