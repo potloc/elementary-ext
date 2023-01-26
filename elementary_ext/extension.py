@@ -99,9 +99,10 @@ class elementary(ExtensionBase):
             if command_args[0] != "--help":
                 if self.config_dir_path is not None:
                     command_args = command_args + ("--config-dir=" + str(self.config_dir_path),)
+                    log.info(f"Using config at `{self.config_dir_path}`...")
                 elif self.dbt_profiles_dir != "":
                     command_args = command_args + ("--profiles-dir=" + str(self.dbt_profiles_dir),)
-
+                    log.info(f"Using profile.yml at `{self.dbt_profiles_dir}`...")
             self.elementary_invoker.run_and_log(command_name, *command_args)
         except subprocess.CalledProcessError as err:
             log_subprocess_error(
