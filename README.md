@@ -34,7 +34,7 @@ Removing this file can potentially cause unwanted changes to the project if the 
     utilities:
       - name: elementary
         namespace: elementary
-        pip_url: elementary-data[bigquery]==0.5.3 git+https://github.com/potloc/elementary-ext.git
+        pip_url: elementary-data[bigquery] git+https://github.com/potloc/elementary-ext.git
         executable: elementary_extension
         settings:
         - name: project_dir

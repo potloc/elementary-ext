@@ -32,6 +32,7 @@ class elementary(ExtensionBase):
         self.dbt_profiles_dir = Path(
             os.getenv("ELEMENTARY_PROFILES_DIR", self.dbt_project_dir / "profiles")
         )
+        self.config_dir_path = os.getenv("ELEMENTARY_CONFIG_DIR_PATH", None)
         self.dbt_ext_type = os.getenv("DBT_EXT_TYPE", "bigquery")
         self.file_path = Path(os.getenv("ELEMENTARY_FILE_PATH", "utilities/elementary/report.html"))
 
@@ -90,6 +91,18 @@ class elementary(ExtensionBase):
             command_args: The arguments to pass to the command.
         """
         try:
+            command_msg = command_name if command_name else "edr"
+            if len(command_args) > 0:
+                command_msg += f" {command_args[0]}"
+            log.info(f"Extension executing `{command_msg}`...")
+
+            if command_args[0] != "--help":
+                if self.config_dir_path is not None:
+                    command_args = command_args + ("--config-dir=" + str(self.config_dir_path),)
+                    log.info(f"Using config at `{self.config_dir_path}`...")
+                elif self.dbt_profiles_dir != "":
+                    command_args = command_args + ("--profiles-dir=" + str(self.dbt_profiles_dir),)
+                    log.info(f"Using profile.yml at `{self.dbt_profiles_dir}`...")
             self.elementary_invoker.run_and_log(command_name, *command_args)
         except subprocess.CalledProcessError as err:
             log_subprocess_error(
