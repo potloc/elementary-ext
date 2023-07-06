@@ -38,6 +38,13 @@ class elementary(ExtensionBase):
 
         self.slack_channel_name = os.getenv("ELEMENTARY_SLACK_CHANNEL_NAME", "")
         self.slack_token = os.getenv("ELEMENTARY_SLACK_TOKEN", "")
+        self.days_back= os.getenv("ELEMENTARY_DAYS_BACK", None)
+        self.timezone= os.getenv("ELEMENTARY_TIMEZONE", None)
+        self.dbt_quoting= os.getenv("ELEMENTARY_DBT_QUOTING", None)
+        self.disable_samples= os.getenv("ELEMENTARY_DISABLE_SAMPLES", None)
+        self.environment= os.getenv("ELEMENTARY_ENVIRONMENT", None)
+
+        
 
         self.dbt_profiles_dir = Path(
             os.getenv("ELEMENTARY_PROFILES_DIR", self.dbt_project_dir / "profiles")
@@ -103,6 +110,23 @@ class elementary(ExtensionBase):
                 elif self.dbt_profiles_dir != "":
                     command_args = command_args + ("--profiles-dir=" + str(self.dbt_profiles_dir),)
                     log.info(f"Using profile.yml at `{self.dbt_profiles_dir}`...")
+                    
+                if self.days_back is not None:
+                    commands_args = commands_args + ("" + str(self.days_back),)
+                    log.info(f"Using days_back `{self.days_back}`...")
+                if self.timezone is not None:
+                    commands_args = commands_args + ("" + str(self.timezone),)
+                    log.info(f"Using timezone `{self.timezone}`...")
+                if self.dbt_quoting is not None:
+                    commands_args = commands_args + ("" + str(self.dbt_quoting),)
+                    log.info(f"Using dbt_quoting `{self.dbt_quoting}`...")
+                if self.disable_samples is not None:
+                    commands_args = commands_args + ("" + str(self.disable_samples),)
+                    log.info(f"Using disable_samples `{self.disable_samples}`...")
+                if self.environment is not None:
+                    commands_args = commands_args + ("" + str(self.environment),)
+                    log.info(f"Using environment `{self.environment}`...")
+                    
             self.elementary_invoker.run_and_log(command_name, *command_args)
         except subprocess.CalledProcessError as err:
             log_subprocess_error(
