@@ -33,47 +33,66 @@ Removing this file can potentially cause unwanted changes to the project if the 
  plugins:
     utilities:
       - name: elementary
-        namespace: elementary
-        pip_url: elementary-data[bigquery] git+https://github.com/potloc/elementary-ext.git
-        executable: elementary_extension
+        variant: elementary
+        pip_url: elementary-data[bigquery] git+https://github.com/potloc/elementary-ext
+        executable: elementary_invoker
         settings:
-        - name: project_dir
-          kind: string
-          value: ${MELTANO_PROJECT_ROOT}/transform/profiles/bigquery/
-        - name: profiles_dir
-          kind: string
-          value: ${MELTANO_PROJECT_ROOT}/transform/profiles/bigquery/
-        - name: file_path
-          kind: string
-          value: ${MELTANO_PROJECT_ROOT}/utilities/elementary/report.html
-        - name: skip_pre_invoke
-          env: ELEMENTARY_EXT_SKIP_PRE_INVOKE
-          kind: boolean
-          value: true
-          description: Whether to skip pre-invoke hooks which automatically run dbt clean and deps
-        - name: slack-token
-          kind: password
-        - name: slack-channel-name
-          kind: string
-          value: elementary-notifs
+          - name: project_dir
+            kind: string
+            value: ${MELTANO_PROJECT_ROOT}/transform/
+          - name: profiles_dir
+            kind: string
+            value: ${MELTANO_PROJECT_ROOT}/transform/profiles/bigquery/
+          - name: file_path
+            kind: string
+            value: ${MELTANO_PROJECT_ROOT}/utilities/elementary/report.html
+          - name: skip_pre_invoke
+            env: ELEMENTARY_EXT_SKIP_PRE_INVOKE
+            kind: boolean
+            value: true
+            description:
+              Whether to skip pre-invoke hooks which automatically run dbt clean
+              and deps
+          - name: slack-token
+            kind: password
+          - name: slack-channel-name
+            kind: string
+            value: elementary-notifs
+          - name: google-service-account-path
+            kind: string
+          - name: gcs-bucket-name
+            kind: string
+          - name: days-back
+            kind: string
+          - name: env
+            kind: string
+        commands:
+          initialize:
+            args: initialize
+            executable: elementary_extension
+          describe:
+            args: describe
+            executable: elementary_extension
+          monitor-report:
+            args: monitor-report
+            executable: elementary_extension
+          monitor-send-report:
+            args: monitor-send-report
+            executable: elementary_extension
+          send-report-gcs:
+            send-report --google-service-account-path ${ELEMENTARY_GOOGLE_SERVICE_ACCOUNT_PATH}
+            --gcs-bucket-name ${ELEMENTARY_GCS_BUCKET_NAME} --update-bucket-website true
+            --executions-limit 5
+          send-report-slack:
+            send-report --slack-token ${ELEMENTARY_SLACK_TOKEN} --slack-channel-name ${ELEMENTARY_SLACK_CHANNEL_NAME}
+
         config:
           profiles-dir: ${MELTANO_PROJECT_ROOT}/transform/profiles/bigquery/
           file-path: ${MELTANO_PROJECT_ROOT}/utilities/elementary/report.html
-          slack-channel-name: team-data-engineering-notifications
+          slack-channel-name: my-channel-name
+          google-service-account-path: ${MELTANO_PROJECT_ROOT}/.secrets/elementary-gcs.json
+          gcs-bucket-name: my-storage-device
           skip_pre_invoke: true
-        commands:
-          monitor:
-            description: Allows your to run monitoring with elementary
-            args: monitor --profiles-dir ${ELEMENTARY_PROFILES_DIR}
-          monitor-report:
-            description: Allows your to create a local report
-            args: monitor report
-                  --profiles-dir ${ELEMENTARY_PROFILES_DIR}
-                  --file-path ${ELEMENTARY_FILE_PATH}
-          monitor-send-report:
-            description: Allows your to send a report through slack
-            args: monitor send-report
-                  --profiles-dir ${ELEMENTARY_PROFILES_DIR}
-                  --slack-token ${ELEMENTARY_SLACK_TOKEN}
-                  --slack-channel-name ${ELEMENTARY_SLACK_CHANNEL_NAME}
+          env: prod
+          days-back: 3
 ```
