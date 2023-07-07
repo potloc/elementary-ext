@@ -112,19 +112,19 @@ class elementary(ExtensionBase):
                     command_args = command_args + ("--profiles-dir=" + str(self.dbt_profiles_dir),)
                     log.info(f"Using profile.yml at `{self.dbt_profiles_dir}`...")          
                 if self.days_back is not None:
-                    command_args = command_args + ("--days-back" + str(self.days_back),)
+                    command_args = command_args + ("--days-back " + str(self.days_back),)
                     log.info(f"Using days_back `{self.days_back}`...")
                 if self.timezone is not None:
-                    command_args = command_args + ("--timezone" + str(self.timezone),)
+                    command_args = command_args + ("--timezone " + str(self.timezone),)
                     log.info(f"Using timezone `{self.timezone}`...")
                 if self.dbt_quoting is not None:
-                    command_args = command_args + ("--dbt-quoting" + str(self.dbt_quoting),)
+                    command_args = command_args + ("--dbt-quoting " + str(self.dbt_quoting),)
                     log.info(f"Using dbt_quoting `{self.dbt_quoting}`...")
                 if self.disable_samples is not None:
-                    command_args = command_args + ("--disable-samples" + str(self.disable_samples),)
+                    command_args = command_args + ("--disable-samples " + str(self.disable_samples),)
                     log.info(f"Using disable_samples `{self.disable_samples}`...")
                 if self.environment is not None:
-                    command_args = command_args + ("--env" + str(self.environment),)
+                    command_args = command_args + ("--env " + str(self.environment),)
                     log.info(f"Using environment `{self.environment}`...")
                 if self.full_refresh_dbt_models is not None:
                     command_args = command_args + ("--full-refresh-dbt-package" + str(self.full_refresh_dbt_models),)
