@@ -35,7 +35,6 @@ class elementary(ExtensionBase):
         self.config_dir_path = os.getenv("ELEMENTARY_CONFIG_DIR_PATH", None)
         self.dbt_ext_type = os.getenv("DBT_EXT_TYPE", "bigquery")
         self.file_path = Path(os.getenv("ELEMENTARY_FILE_PATH", "utilities/elementary/report.html"))
-
         self.slack_channel_name = os.getenv("ELEMENTARY_SLACK_CHANNEL_NAME", "")
         self.slack_token = os.getenv("ELEMENTARY_SLACK_TOKEN", "")
         self.days_back= os.getenv("ELEMENTARY_DAYS_BACK", None)
@@ -44,13 +43,6 @@ class elementary(ExtensionBase):
         self.disable_samples= os.getenv("ELEMENTARY_DISABLE_SAMPLES", None)
         self.environment= os.getenv("ELEMENTARY_ENV", None)
         self.full_refresh_dbt_models= os.getenv("ELEMENTARY_FULL_REFRESH_DBT_MODELS", None)
-
-        
-
-        self.dbt_profiles_dir = Path(
-            os.getenv("ELEMENTARY_PROFILES_DIR", self.dbt_project_dir / "profiles")
-        )
-
         self.skip_pre_invoke = (
             os.getenv("ELEMENTARY_EXT_SKIP_PRE_INVOKE", "false").lower() == "true"
         )
