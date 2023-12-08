@@ -46,9 +46,7 @@ class elementary(ExtensionBase):
         self.skip_pre_invoke = (
             os.getenv("ELEMENTARY_EXT_SKIP_PRE_INVOKE", "false").lower() == "true"
         )
-        self.elementary_invoker = Invoker(self.elementary_bin, cwd=self.dbt_profiles_dir)
-
-
+        self.elementary_invoker = Invoker(self.elementary_bin)
 
     def pre_invoke(self, invoke_name: str | None, *invoke_args: Any) -> None:
         """Pre-invoke hook.
