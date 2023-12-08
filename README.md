@@ -39,13 +39,13 @@ Removing this file can potentially cause unwanted changes to the project if the 
         settings:
           - name: project_dir
             kind: string
-            value: ${MELTANO_PROJECT_ROOT}/transform/
+            value: transform
           - name: profiles_dir
             kind: string
-            value: ${MELTANO_PROJECT_ROOT}/transform/profiles/bigquery/
+            value: transform/profiles
           - name: file_path
             kind: string
-            value: ${MELTANO_PROJECT_ROOT}/utilities/elementary/report.html
+            value: output/elementary_report.html
           - name: skip_pre_invoke
             env: ELEMENTARY_EXT_SKIP_PRE_INVOKE
             kind: boolean
@@ -87,10 +87,10 @@ Removing this file can potentially cause unwanted changes to the project if the 
             send-report --slack-token ${ELEMENTARY_SLACK_TOKEN} --slack-channel-name ${ELEMENTARY_SLACK_CHANNEL_NAME}
 
         config:
-          profiles-dir: ${MELTANO_PROJECT_ROOT}/transform/profiles/bigquery/
-          file-path: ${MELTANO_PROJECT_ROOT}/utilities/elementary/report.html
+          profiles-dir: transform/profiles/bigquery
+          file-path: output/my-elementary-report.html
           slack-channel-name: my-channel-name
-          google-service-account-path: ${MELTANO_PROJECT_ROOT}/.secrets/elementary-gcs.json
+          google-service-account-path: .secrets/elementary-gcs.json
           gcs-bucket-name: my-storage-device
           skip_pre_invoke: true
           env: prod
