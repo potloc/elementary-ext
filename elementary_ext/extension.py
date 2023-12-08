@@ -34,7 +34,7 @@ class elementary(ExtensionBase):
         )
         self.config_dir_path = os.getenv("ELEMENTARY_CONFIG_DIR_PATH", None)
         self.dbt_ext_type = os.getenv("DBT_EXT_TYPE", "bigquery")
-        self.file_path = Path(os.getenv("ELEMENTARY_FILE_PATH", "utilities/elementary/report.html"))
+        self.file_path = Path(os.getenv("ELEMENTARY_FILE_PATH", "output/elementary_report.html"))
         self.slack_channel_name = os.getenv("ELEMENTARY_SLACK_CHANNEL_NAME", "")
         self.slack_token = os.getenv("ELEMENTARY_SLACK_TOKEN", "")
         self.days_back= os.getenv("ELEMENTARY_DAYS_BACK", None)
